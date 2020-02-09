@@ -1,3 +1,5 @@
 const questions = require("./public/inquirer/questions");
 
-questions()
+const startQuestions = new questions;
+
+startQuestions.introQuestions()
