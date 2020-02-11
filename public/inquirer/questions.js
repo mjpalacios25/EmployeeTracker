@@ -26,7 +26,7 @@ class introQuestions {
                         type: "list",
                         name: "viewManager",
                         message: "Which manager's staff would you like to view?",
-                        choices: ["Mark Sanchez", "Wayne Gretzky", "Cassius Clay", "Ken Griffey", "Neil Young", "Joe Montana", "Magic Johnson", "Pete Samphras"] //for loop that shows non duplicated manager names
+                        choices: ["Barry Sanders", "Wayne Gretzky", "Cassius Clay", "Ken Griffey", "Usain Bolt", "Joe Montana", "Magic Johnson", "Pete Samphras"] //for loop that shows non duplicated manager names
                     }
                 ])
             };
@@ -36,7 +36,7 @@ class introQuestions {
                         type: "list",
                         name: "viewRole",
                         message: "Which role would you like to view?",
-                        choices: "for loop" //for loop that shows non duplicated role names
+                        choices: ["Manager", "Employee", "Intern"]
                     }
                 ])
             };
@@ -46,7 +46,7 @@ class introQuestions {
                         type: "list",
                         name: "viewBudget",
                         message: "Which department's utilized budget would you like to view?",
-                        choices: "for loop" //for loop that shows non duplicated department names
+                        choices: ["Accounting", "Programs", "Operations", "Information Technology", "Executive", "Marketing", "Fundraising", "Human Resources"]
                     }
                 ])
             };
@@ -61,13 +61,13 @@ class introQuestions {
                         type: "list",
                         name: "addtoDept",
                         message: "Which department would you like to add this person to?",
-                        choices: ["for loop"] //for loop that shows non duplicated department names
+                        choices: ["Accounting", "Programs", "Operations", "Information Technology", "Executive", "Marketing", "Fundraising", "Human Resources"]
                     },
                     {
                         type: "list",
                         name: "addtoRole",
                         message: "Which role do you want to assign this person?",
-                        choices: ["for loop"] //for loop that shows non duplicated role names
+                        choices: ["Manager", "Employee", "Intern"]
                     }
                 ])
             }
