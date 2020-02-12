@@ -27,10 +27,8 @@ class Query {
             query += "INNER JOIN role ON (role.id = employee.id) ";
             query += "INNER JOIN department on (department.id = role.department_id);";
             connection.query(query, function(err, res){
-                
                     console.table( res)
-                
-            })
+            });
     };
     viewbyDept(){
         Inquirer.prompt([
@@ -44,12 +42,10 @@ class Query {
             var query = "SELECT department.name, employee.first_name, employee.last_name, role.title, role.salary ";
             query += "FROM employee ";
             query += "INNER JOIN role ON (role.id = employee.id) ";
-            query += "INNER JOIN department on (department.id = role.department_id);";
-            connection.query(query, { artist: answer.artist }, function(err, res) {
-              for (var i = 0; i < res.length; i++) {
-                console.log("Position: " + res[i].position + " || Song: " + res[i].song + " || Year: " + res[i].year);
-              }
-              //startQuestions.introQuestions();
+            query += "INNER JOIN department on (department.id = role.department_id) ";
+            query += "WHERE (department.name = ?)";
+            connection.query(query, [answer.viewDepartment] , function(err, res) {
+                console.table(res)
             });
         })
     };
@@ -80,12 +76,13 @@ class Query {
                 choices: ["Manager", "Employee", "Intern"]
             }
         ]).then(function(answer){
-            var query = "SELECT position, song, year FROM top5000 WHERE ?";
-            connection.query(query, { artist: answer.artist }, function(err, res) {
-              for (var i = 0; i < res.length; i++) {
-                console.log("Position: " + res[i].position + " || Song: " + res[i].song + " || Year: " + res[i].year);
-              }
-              startQuestions.introQuestions();
+            var query = "SELECT role.title, department.name, employee.first_name, employee.last_name, role.salary ";
+            query += "FROM employee ";
+            query += "INNER JOIN role ON (role.id = employee.id) ";
+            query += "INNER JOIN department on (department.id = role.department_id) ";
+            query += "WHERE (role.title = ?)";
+            connection.query(query, [answer.viewRole] , function(err, res) {
+                console.table(res)
             });
         })
     };
@@ -98,12 +95,13 @@ class Query {
                 choices: ["Accounting", "Programs", "Operations", "Information Technology", "Executive", "Marketing", "Fundraising", "Human Resources"]
             }
         ]).then(function(answer){
-            var query = "SELECT position, song, year FROM top5000 WHERE ?";
-            connection.query(query, { artist: answer.artist }, function(err, res) {
-              for (var i = 0; i < res.length; i++) {
-                console.log("Position: " + res[i].position + " || Song: " + res[i].song + " || Year: " + res[i].year);
-              }
-              startQuestions.introQuestions();
+            var query = "SELECT department.name, SUM(role.salary) ";
+            query += "FROM employee ";
+            query += "INNER JOIN role ON (role.id = employee.id) ";
+            query += "INNER JOIN department on (department.id = role.department_id) ";
+            query += "WHERE(department.name = ?); ";
+            connection.query(query, [answer.viewBudget] , function(err, res) {
+                console.table(res)
             });
         })
     };

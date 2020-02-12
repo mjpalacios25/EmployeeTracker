@@ -39,6 +39,18 @@ function runSearch(){
             case "View All Employees" : 
             search.viewAll();
             break;
+
+            case "View Employees by Department" :
+            search.viewbyDept();
+            break;
+
+            case "View Employees by Role" :
+            search.viewbyRole();
+            break;
+
+            case "View the Total Utilized Budget of a Department" :
+            search.viewUtilizedBudget();
+            break;
         }
 
     })
