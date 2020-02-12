@@ -1,6 +1,37 @@
 const Inquirer = require("inquirer");
+const mysql = require("mysql");
+const cTable = require('console.table');
+
+var connection = mysql.createConnection({
+    host: "localhost",
+  
+    // Your port; if not 3306
+    port: 3306,
+  
+    // Your username
+    user: "root",
+  
+    // Your password
+    password: "testtest",
+    database: "SportsDudesDB"
+  });
+  
+  connection.connect(function(err) {
+    if (err) throw err;
+  });
 
 class Query {
+    viewAll(){
+        var query = "SELECT department.name, employee.first_name, employee.last_name, role.title, role.salary ";
+            query += "FROM employee ";
+            query += "INNER JOIN role ON (role.id = employee.id) ";
+            query += "INNER JOIN department on (department.id = role.department_id);";
+            connection.query(query, function(err, res){
+                
+                    console.table( res)
+                
+            })
+    };
     viewbyDept(){
         Inquirer.prompt([
             {
@@ -10,12 +41,15 @@ class Query {
                 choices: ["Accounting", "Programs", "Operations", "Information Technology", "Executive", "Marketing", "Fundraising", "Human Resources"] 
             }
         ]).then(function(answer){
-            var query = "SELECT position, song, year FROM top5000 WHERE ?";
+            var query = "SELECT department.name, employee.first_name, employee.last_name, role.title, role.salary ";
+            query += "FROM employee ";
+            query += "INNER JOIN role ON (role.id = employee.id) ";
+            query += "INNER JOIN department on (department.id = role.department_id);";
             connection.query(query, { artist: answer.artist }, function(err, res) {
               for (var i = 0; i < res.length; i++) {
                 console.log("Position: " + res[i].position + " || Song: " + res[i].song + " || Year: " + res[i].year);
               }
-              startQuestions.introQuestions();
+              //startQuestions.introQuestions();
             });
         })
     };
@@ -235,3 +269,5 @@ class Query {
     };
 
 }
+
+module.exports = Query
