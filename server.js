@@ -1,5 +1,4 @@
-const questions = require("./public/inquirer/questions");
+const questions = require("./public/inquirer/questions2");
+var mysql = require("mysql");
 
-const startQuestions = new questions;
-
-startQuestions.introQuestions()
+questions.introQuestions()
