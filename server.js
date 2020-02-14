@@ -63,7 +63,26 @@ function runSearch(){
             case "Add Roles" :
             search.addRoles();
             break;
-            
+
+            case "Delete Roles" :
+            search.deleteRoles();
+            break;
+
+            case "Add Departments" :
+            search.addDepartment();
+            break;
+
+            case "Delete Departments" :
+            search.deleteDepartment();
+            break;
+
+            case "Update Employee Role" :
+            search.updateRole();
+            break;
+
+            case "Update Employee Manager" :
+            search.updateManager();
+            break;
         }
 
     })

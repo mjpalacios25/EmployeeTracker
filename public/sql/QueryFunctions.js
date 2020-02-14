@@ -248,29 +248,24 @@ class Query {
                 message: "What is the department you'd like to add?",
             }
         ]).then(function(answer){
-            var query = "SELECT position, song, year FROM top5000 WHERE ?";
-            connection.query(query, { artist: answer.artist }, function(err, res) {
-              for (var i = 0; i < res.length; i++) {
-                console.log("Position: " + res[i].position + " || Song: " + res[i].song + " || Year: " + res[i].year);
-              }
-              startQuestions.introQuestions();
+            var query = "INSERT INTO department (name) VALUES ? ";
+            connection.query(query, [answer.newDept] , function(err, res) {
+                console.table(res)
             });
         })
     };
     deleteDepartment(){
         Inquirer.prompt([
             {
-                type: "input",
+                type: "list",
                 name: "deleteDept",
                 message: "What is the department you'd like to remove?",
+                choices: ["Accounting", "Programs", "Operations", "Information Technology", "Executive", "Marketing", "Fundraising", "Human Resources"]
             }
         ]).then(function(answer){
-            var query = "SELECT position, song, year FROM top5000 WHERE ?";
-            connection.query(query, { artist: answer.artist }, function(err, res) {
-              for (var i = 0; i < res.length; i++) {
-                console.log("Position: " + res[i].position + " || Song: " + res[i].song + " || Year: " + res[i].year);
-              }
-              startQuestions.introQuestions();
+            var query = "DELETE FROM department WHERE (name = ?) ";
+            connection.query(query, [answer.deleteDept] , function(err, res) {
+                console.table(res)
             });
         })
     };
@@ -278,8 +273,13 @@ class Query {
         Inquirer.prompt([
             {
                 type: "input",
-                name: "employee",
-                message: "Which employee would you like to udpate?"
+                name: "firstNameEmployee",
+                message: "What is the first name of the employee whose role you'd like to update?"
+            },
+            {
+                type: "input",
+                name: "lastNameEmployee",
+                message: "What is the last name of the employee whose role you'd like to update?"
             },
             {
                 type: "list",
@@ -288,12 +288,15 @@ class Query {
                 choices: ["Manager", "Employee", "Intern"]
             }
         ]).then(function(answer){
-            var query = "SELECT position, song, year FROM top5000 WHERE ?";
-            connection.query(query, { artist: answer.artist }, function(err, res) {
-              for (var i = 0; i < res.length; i++) {
-                console.log("Position: " + res[i].position + " || Song: " + res[i].song + " || Year: " + res[i].year);
-              }
-              startQuestions.introQuestions();
+            var query = "UPDATE employee SET role_id = ? WHERE (first_name = ? AND last_name = ?)";
+            var roleID ;
+
+            if(answer.addtoRole === "Manager"){roleID = 1}
+            else if(answer.addtoRole === "Employee"){roleID = 2}
+            else if(answer.addtoRole === "Intern"){roleID = 3};
+
+            connection.query(query, [roleID, answer.firstNameEmployee, answer.lastNameEmployee] , function(err, res) {
+                console.table(res)
             });
         })
     };
@@ -301,8 +304,13 @@ class Query {
         Inquirer.prompt([
             {
                 type: "input",
-                name: "employee",
-                message: "Which employee would you like to udpate?"
+                name: "firstNameEmployee",
+                message: "What is the first name of the employee whose manager you'd like to update?"
+            },
+            {
+                type: "input",
+                name: "lastNameEmployee",
+                message: "What is the last name of the employee whose manager you'd like to update?"
             },
             {
                 type: "list",
@@ -311,12 +319,20 @@ class Query {
                 choices: ["Barry Sanders", "Wayne Gretzky", "Cassius Clay", "Ken Griffey", "Usain Bolt", "Joe Montana", "Magic Johnson", "Pete Samphras"]
             }
         ]).then(function(answer){
-            var query = "SELECT position, song, year FROM top5000 WHERE ?";
-            connection.query(query, { artist: answer.artist }, function(err, res) {
-              for (var i = 0; i < res.length; i++) {
-                console.log("Position: " + res[i].position + " || Song: " + res[i].song + " || Year: " + res[i].year);
-              }
-              startQuestions.introQuestions();
+            var query = "UPDATE employee SET manager_id = ? WHERE (first_name = ? AND last_name = ?)";
+            var managerID ;
+
+            if(answer.addtoManager === "Barry Sanders"){managerID = 1}
+            else if(answer.addtoManager === "Wayne Gretzky"){managerID = 2}
+            else if(answer.addtoManager === "Cassius Clay"){managerID = 3}
+            else if(answer.addtoManager === "Ken Griffey"){managerID = 4}
+            else if(answer.addtoManager === "Usain Bolt"){managerID = 5}
+            else if(answer.addtoManager === "Joe Montana"){managerID = 6}
+            else if(answer.addtoManager === "Magic Johnson"){managerID = 7}
+            else if(answer.addtoManager === "Pete Samphras"){managerID = 8};
+
+            connection.query(query, [managerID, answer.firstNameEmployee, answer.lastNameEmployee] , function(err, res) {
+                console.table(res)
             });
         })
     };
