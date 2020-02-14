@@ -51,6 +51,19 @@ function runSearch(){
             case "View the Total Utilized Budget of a Department" :
             search.viewUtilizedBudget();
             break;
+
+            case "Add Employees" :
+            search.addEmployees();
+            break;
+
+            case "Remove Employees" :
+            search.deleteEmployees();
+            break;
+
+            case "Add Roles" :
+            search.addRoles();
+            break;
+            
         }
 
     })
