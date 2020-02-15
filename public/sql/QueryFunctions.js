@@ -20,6 +20,25 @@ var connection = mysql.createConnection({
     if (err) throw err;
   });
 
+
+// create an empty varibale where I can push query results that can display in the choices section... maybe would work?
+
+async function displayQueries(){
+    
+        var query = "SELECT name FROM department";
+        var deptList = [];
+        var departments = await connection.query(query, function(err, res){
+            var deptList = [];
+            for(let i = 0; i < res.length; i++){
+                deptList.push(res[i].name)
+            }
+            console.log(deptList);
+            return deptList
+        
+        }); 
+    await console.log(departments);
+}
+
 class Query {
     viewAll(){
         var query = "SELECT department.name, employee.first_name, employee.last_name, role.title, role.salary ";
@@ -30,13 +49,21 @@ class Query {
                     console.table( res)
             });
     };
-    viewbyDept(){
+    async viewbyDept(){
+        //    var stuff =  await displayQueries().then(function(response){
+        //        console.log("things " + response);
+        //        return response
+        //    });
+        //    var choicestoSee = await stuff;
+
+        //    console.log("view arry: "+ viewArray);
+        //    var seeChoices = viewArray
         Inquirer.prompt([
             {
                 type: "list",
                 name: "viewDepartment",
                 message: "Which department would you like to view?",
-                choices: ["Accounting", "Programs", "Operations", "Information Technology", "Executive", "Marketing", "Fundraising", "Human Resources"] 
+                choices: ["Accounting", "Programs", "Operations", "Information Technology", "Executive", "Marketing", "Fundraising", "Human Resources"]
             }
         ]).then(function(answer){
             var query = "SELECT department.name, employee.first_name, employee.last_name, role.title, role.salary ";
@@ -46,8 +73,10 @@ class Query {
             query += "WHERE (department.name = ?)";
             connection.query(query, [answer.viewDepartment] , function(err, res) {
                 console.table(res)
-            });
-        })
+            
+        }); 
+        });
+        
     };
     viewbyManager(){
         Inquirer.prompt([
@@ -58,12 +87,25 @@ class Query {
                 choices: ["Barry Sanders", "Wayne Gretzky", "Cassius Clay", "Ken Griffey", "Usain Bolt", "Joe Montana", "Magic Johnson", "Pete Samphras"]
             }
         ]).then(function(answer){
-            var query = "SELECT position, song, year FROM top5000 WHERE ?";
-            connection.query(query, { artist: answer.artist }, function(err, res) {
-              for (var i = 0; i < res.length; i++) {
-                console.log("Position: " + res[i].position + " || Song: " + res[i].song + " || Year: " + res[i].year);
-              }
-              startQuestions.introQuestions();
+            var query = "SELECT  department.name, employee.first_name, employee.last_name, employee.role_id, employee.manager_id ";
+            query += "FROM employee ";
+            query += "INNER JOIN role ON (role.id = employee.role_id) ";
+            query += "INNER JOIN department on (department.id = role.department_id) ";
+            query += "WHERE (manager_id = ?)";
+
+            var managerID;
+
+            if(answer.viewManager === "Barry Sanders"){managerID = 1}
+            else if(answer.viewManager === "Wayne Gretzky"){managerID = 2}
+            else if(answer.viewManager === "Cassius Clay"){managerID = 3}
+            else if(answer.viewManager === "Ken Griffey"){managerID = 4}
+            else if(answer.viewManager === "Usain Bolt"){managerID = 5}
+            else if(answer.viewManager === "Joe Montana"){managerID = 6}
+            else if(answer.viewManager === "Magic Johnson"){managerID = 7}
+            else if(answer.viewManager === "Pete Samphras"){managerID = 8};
+
+            connection.query(query, [managerID] , function(err, res) {
+                console.table(res)
             });
         })
     };
@@ -338,5 +380,7 @@ class Query {
     };
 
 }
+
+
 
 module.exports = Query

@@ -1,5 +1,4 @@
 const Inquirer = require("inquirer");
-//const questions = require("./public/inquirer/questions2");
 const searchCommands = require("./public/sql/QueryFunctions");
 const mysql = require("mysql");
 
@@ -20,8 +19,9 @@ var connection = mysql.createConnection({
   
   connection.connect(function(err) {
     if (err) throw err;
-    runSearch();
+   runSearch();
   });
+
 
 
 var search = new searchCommands;
@@ -38,50 +38,67 @@ function runSearch(){
         switch (answer.action){
             case "View All Employees" : 
             search.viewAll();
+            runSearch();
             break;
 
             case "View Employees by Department" :
             search.viewbyDept();
+            runSearch();
+            break;
+
+            case "View All Employees by Manager" :
+            search.viewbyManager();
+            runSearch();
             break;
 
             case "View Employees by Role" :
             search.viewbyRole();
+            runSearch();
             break;
 
             case "View the Total Utilized Budget of a Department" :
             search.viewUtilizedBudget();
+            runSearch();
             break;
 
             case "Add Employees" :
             search.addEmployees();
+            runSearch();
             break;
 
             case "Remove Employees" :
             search.deleteEmployees();
+            runSearch();
             break;
 
             case "Add Roles" :
             search.addRoles();
+            runSearch();
             break;
 
             case "Delete Roles" :
             search.deleteRoles();
+            runSearch();
             break;
 
             case "Add Departments" :
             search.addDepartment();
+            runSearch();
             break;
 
             case "Delete Departments" :
             search.deleteDepartment();
+            runSearch();
             break;
 
             case "Update Employee Role" :
             search.updateRole();
+            runSearch();
             break;
 
             case "Update Employee Manager" :
             search.updateManager();
+            runSearch();
             break;
         }
 
